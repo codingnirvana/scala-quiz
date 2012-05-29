@@ -1,4 +1,5 @@
 import java.util.NoSuchElementException
+import scala.Either
 
 object Solution {
 
@@ -8,7 +9,6 @@ object Solution {
     def lastRecursive[A](list: List[A]) : A = list match {
       case head :: Nil => head
       case head :: tail => {
-        System.out.println(head +  " tail:" + tail)
         lastRecursive(tail) }
       case _ => throw new NoSuchElementException
     }
@@ -113,13 +113,72 @@ object Solution {
   }
 
   object Problem9 {
-     def pack[A] (list: List[A]) = {
+
+    def pack[A](list: List[A]): List[List[A]] = {
+      if (list.isEmpty) List(List())
+      else {
+        val (packed, next) = list span { _ == list.head }
+        if (next == Nil) List(packed)
+        else packed :: pack(next)
+      }
+    }
+
+    def packFunctional[A](list: List[A]) = {
        list.foldRight(List[List[A]]()) { (h,r) =>
-         if (!r.isEmpty && !r.head.isEmpty && r.head.head == h)
-           r.head :: List(h) :: r.tail
+         if (!r.isEmpty && r.head.head == h)
+           (h :: r.head) :: r.tail
          else
            List(h) :: r
        }
      }
   }
+
+  object Problem10 {
+    def encode[A](list: List[A]) : List[(Int, A)] = {
+      if (list.isEmpty) List()
+      else {
+        val (packed, next) = list span { _ == list.head }
+        (packed.size,packed.head) :: encode(next)
+      }
+    }
+
+    def encodeFunctional[A](list: List[A]) = {
+      Problem9.packFunctional(list) map { packed => (packed.size, packed.head)}
+    }
+  }
+
+  object Problem11 {
+    def encodeModified[A](list: List[A]) = {
+      Problem10.encodeFunctional(list) map {
+        case (1, b) => b
+        case (a, b) => (a,b)
+      }
+    }
+
+    def encodeModifiedTypeSafe [A](list: List[A]) : List[Either[A, (Int, A)]] = {
+      Problem10.encodeFunctional(list) map {
+        case (1, b) => Left(b)
+        case (a, b) => Right(a,b)
+      }
+    }
+  }
+
+  object Problem12 {
+     def decode[A](list: List[(Int,A)]) = {
+        list flatMap { t => List.fill(t._1)(t._2)}
+     }
+  }
+
+  object Problem14 {
+    def duplicate[A](list: List[A])= {
+      Problem15.duplicateN(2,list)
+    }
+  }
+
+  object Problem15 {
+    def duplicateN[A](n:Int, list: List[A])= {
+      list flatMap { x => List.fill(n)(x)}
+    }
+  }
+
 }

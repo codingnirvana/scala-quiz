@@ -51,6 +51,30 @@ class NinetyNineProblemsSpec extends FlatSpec with ShouldMatchers {
 
   it should "P09 - Pack consecutive duplicates into sub lists" in {
     Problem9.pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) should equal (List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e)))
+    Problem9.packFunctional(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) should equal (List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e)))
+  }
+
+  it should "P10 - Run length encoding of a string" in {
+    Problem10.encode(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) should equal(List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e)))
+    Problem10.encodeFunctional(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) should equal(List((4,'a), (1,'b), (2,'c), (2,'a), (1,'d), (4,'e)))
+  }
+
+  it should "P11 - Modified run length encoding" in {
+    Problem11.encodeModified(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) should equal(List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e)))
+    // Problem11.encodeModifiedTypeSafe(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) should equal(List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e)))
+  }
+
+  it should "P12 - Decode a run-length encoded string" in {
+      (Problem12.decode(List((4, 'a), (1, 'b), (2, 'c), (2, 'a), (1, 'd), (4, 'e)))
+       should equal(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)))
+  }
+
+  it should "P14 - Duplicate the elements of a list" in {
+    Problem14.duplicate(List('a, 'b, 'c, 'c, 'd)) should equal(List('a, 'a, 'b, 'b, 'c, 'c, 'c, 'c, 'd, 'd))
+  }
+
+  it should "P15 - Duplicate the elements of a list given number of times" in {
+    Problem15.duplicateN(3, List('a, 'b, 'c, 'c, 'd)) should equal(List('a, 'a, 'a, 'b, 'b, 'b, 'c, 'c, 'c, 'c, 'c, 'c, 'd, 'd, 'd))
   }
 
 }
