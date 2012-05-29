@@ -29,6 +29,28 @@ class NinetyNineProblemsSpec extends FlatSpec with ShouldMatchers {
     Problem4.lengthTailRecursive(list) should equal(6)
   }
 
+  it should "P05 - Reverse a list" in {
+    Problem5.reverse(list) should equal(List(8, 5, 3, 2, 1, 1))
+    Problem5.reverseRecursive(list) should equal(List(8, 5, 3, 2, 1, 1))
+    Problem5.reverseFunctional(list) should equal(List(8, 5, 3, 2, 1, 1))
+  }
 
+  it should "P06 - Find out whether a list is palindrome" in {
+    Problem6.isPalindrome(list) should equal(false)
+    Problem6.isPalindrome(List(1, 2, 3, 2, 1)) should equal(true)
+  }
+
+  it should "P07 - Flatten a nested list structure" in {
+    Problem7.flatten(List(List(1, 1), 2, List(3, List(5, 8)))) should equal(list)
+  }
+
+  it should "P08 - Eliminate consecutive duplicates" in {
+    Problem8.compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) should equal(List('a, 'b, 'c, 'a, 'd, 'e))
+    Problem8.compressFunctional(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) should equal(List('a, 'b, 'c, 'a, 'd, 'e))
+  }
+
+  it should "P09 - Pack consecutive duplicates into sub lists" in {
+    Problem9.pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) should equal (List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e)))
+  }
 
 }

@@ -7,7 +7,9 @@ object Solution {
 
     def lastRecursive[A](list: List[A]) : A = list match {
       case head :: Nil => head
-      case _ :: tail => lastRecursive(tail)
+      case head :: tail => {
+        System.out.println(head +  " tail:" + tail)
+        lastRecursive(tail) }
       case _ => throw new NoSuchElementException
     }
   }
@@ -57,5 +59,67 @@ object Solution {
        }
       lengthTR(0, list)
     }
+  }
+
+  object Problem5 {
+    def reverse[A](list: List[A]) = {
+      list.reverse
+    }
+
+    def reverseRecursive[A](list: List[A]) = {
+      def reverseTR(ans: List[A], list: List[A]) : List[A] = list match {
+        case Nil => ans
+        case h :: tail  =>  reverseTR(h :: ans, tail)
+      }
+      reverseTR(Nil, list)
+    }
+
+    def reverseFunctional[A](list: List[A]) : List[A] = {
+      list.foldLeft(List[A]()) {(r,h) => h :: r}
+    }
+  }
+
+  object Problem6 {
+    def isPalindrome[A](list: List[A]) : Boolean = {
+      list.equals(list.reverse)
+    }
+  }
+
+  object Problem7 {
+    def flatten[A](list: List[A]) : List[Any]  = list flatMap {
+      case l : List[_] => flatten(l)
+      case e => List(e)
+    }
+  }
+
+  object Problem8 {
+    def compress[A](list: List[A]) = {
+       def compressTR(current: A, ans: List[A], list: List[A]) : List[A] = list match {
+         case Nil => ans
+         case `current` :: tail => compressTR(current, ans, tail)
+         case head :: tail => compressTR(head, head :: ans, tail)
+       }
+      compressTR(list(0), List(list(0)), list).reverse
+    }
+
+    def compressFunctional[A](list: List[A]) = {
+       list.foldRight(List[A]()) { (h,r) =>
+          if (r.isEmpty || r.head != h)
+            h :: r
+          else
+            r
+       }
+    }
+  }
+
+  object Problem9 {
+     def pack[A] (list: List[A]) = {
+       list.foldRight(List[List[A]]()) { (h,r) =>
+         if (!r.isEmpty && !r.head.isEmpty && r.head.head == h)
+           r.head :: List(h) :: r.tail
+         else
+           List(h) :: r
+       }
+     }
   }
 }
