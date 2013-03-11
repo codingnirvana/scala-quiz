@@ -16,7 +16,8 @@ object ScalaQuizBuild extends Build {
       scalaVersion := "2.10.0",
       resolvers := Seq(typesafeRepo),
       libraryDependencies ++= Seq(
-        scalatest
+        scalatest,
+        scalaARM
       )
     )
   )
@@ -27,6 +28,7 @@ object ScalaQuizBuild extends Build {
 
   object Dependencies {
     val scalatest = "org.scalatest" % "scalatest_2.10" % "1.9.1" % "test"
+    val scalaARM = "com.jsuereth" %% "scala-arm" % "1.3"
   }
 
 }
