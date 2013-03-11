@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea_modules/project.iml" filepath="$PROJECT_DIR$/.idea_modules/project.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea_modules/scala-quiz.iml" filepath="$PROJECT_DIR$/.idea_modules/scala-quiz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/scala-quiz-build.iml" filepath="$PROJECT_DIR$/.idea_modules/scala-quiz-build.iml" />
     </modules>
   </component>
 </project>

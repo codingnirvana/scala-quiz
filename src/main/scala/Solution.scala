@@ -1,4 +1,3 @@
-import java.util.NoSuchElementException
 import scala.Either
 
 object Solution {
