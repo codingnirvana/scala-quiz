@@ -17,6 +17,7 @@
     <orderEntry type="module-library">
       <library name="sbt-and-plugins">
         <CLASSES>
+          <root url="file://$MODULE_DIR$/../project/target/scala-2.9.2/sbt-0.12/classes" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.0/launcher-interface-0.12.0.jar!/" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.0/classfile-0.12.0.jar!/" />
           <root url="jar://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.0/classpath-0.12.0.jar!/" />

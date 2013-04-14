@@ -15,7 +15,7 @@ object FileHelper {
       throw new RuntimeException()
    }
 
-   def writeLines(fileName: String, data: List[String]) {
+   def writeLines(fileName: String, data: Seq[String]) {
      for (writer <- managed(new PrintWriter(fileName))) {
        data.foreach(writer.println(_))
      }
