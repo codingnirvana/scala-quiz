@@ -1,6 +1,5 @@
 import challenges.FileHelper
-import java.io.{FileOutputStream, DataOutputStream, PrintWriter}
-import scala.io.BufferedSource
+import java.io.{FileOutputStream, DataOutputStream}
 
 object Unigrams extends App {
 
@@ -8,7 +7,7 @@ object Unigrams extends App {
   case class Product(id: Int, title: String, tokens : Array[String])
   case class Record(recordNumber: Int, title: String, noOfFeatures: Int, featureVector: Int*)
 
-  def lines =  io.Source.fromFile("/home/rajeshm/Downloads/mobiles/data/indix/Mobiles-Master-Data.csv").getLines()
+  def lines =  io.Source.fromFile("/home/rajeshm/Downloads/apparel.out").getLines()
 
   def tokenize(s: String) : Array[String] = {
     clean(s).split(' ')
@@ -37,23 +36,6 @@ object Unigrams extends App {
     x
   }
 
-
-  def read() = {
-    val source: BufferedSource = io.Source.fromFile("/home/rajeshm/projects/all-pairs/google-all-pairs-similarity-search-read-only/dblp_le_fixed.bin", "iso-8859-1")
-
-    val numbers: Iterator[Int] = source.take(100)
-      .grouped(4)
-      .map(toInt)
-
-    val x = numbers
-      .map(toSwappedInt)
-      .flatten
-      //.flatMap(_)
-      .foreach(println)
-
-    source.close()
-  }
-
   def write(v: Record, writer: DataOutputStream) = {
     val a = toSwappedInt(v.recordNumber)
     writer.write(a)
@@ -63,6 +45,18 @@ object Unigrams extends App {
     v.featureVector.foreach {
       (x) => writer.write(toSwappedInt(x))
     }
+  }
+
+  def printResults(products: Map[Int,Product]) {
+    val source = io.Source.fromFile("/tmp/sim.txt")
+
+    val results = source.getLines()
+      .map(_.split(','))
+      .map(a => (a(0), products(a(0).toInt).title, a(1), products(a(1).toInt).title, a(2)))
+
+    FileHelper.writeLines("/tmp/results.csv", results.toList.map(f => s"${f._1},${f._2},${f._3},${f._4},${f._5}"))
+
+    source.close()
   }
 
   def run() {
@@ -107,6 +101,11 @@ object Unigrams extends App {
     FileHelper.writeLines("/tmp/features.csv", featureList.map(f => s"${f.id},${f.token},${f.frequency}"))
     FileHelper.writeLines("/tmp/products.csv", products.map(p => s"${p.id},${p.title}"))
     FileHelper.writeLines("/tmp/vectors.csv", vectors.map(v => s"${v.recordNumber},${v.noOfFeatures},${v.featureVector.mkString(",")}"))
+
+    val productsMap: Map[Int, Product] = products
+      .map { f => (f.id, f)} toMap
+
+    printResults(productsMap)
 
   }
 
