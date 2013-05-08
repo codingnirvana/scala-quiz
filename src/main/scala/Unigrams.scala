@@ -1,4 +1,6 @@
 import challenges.FileHelper
+import java.io.{FileOutputStream, DataOutputStream, PrintWriter}
+import scala.io.BufferedSource
 
 object Unigrams extends App {
 
@@ -15,6 +17,52 @@ object Unigrams extends App {
 
   def clean(s: String) : String = {
     s.filterNot(c => ("()_-").contains(c))
+  }
+
+  def swapIndian(b: Array[Int]) = {
+    val b3 : Int = (b(3)<<24)
+    val b2 : Int = (b(2)<<16)
+    val b1: Int = (b(1)<<8)
+    val b0: Int = (b(0))
+    val y = b3 | b2 | b1 | b0
+    y
+  }
+
+  def toInt(chars: Seq[Char]) : Int = {
+    swapIndian(chars.map(_.toInt).toArray)
+  }
+
+  def toSwappedInt(i: Int) : Array[Byte] = {
+    val x = Array[Int](i >> 24, i >> 16, i >> 8, i).map(_.toByte).reverse
+    x
+  }
+
+
+  def read() = {
+    val source: BufferedSource = io.Source.fromFile("/home/rajeshm/projects/all-pairs/google-all-pairs-similarity-search-read-only/dblp_le_fixed.bin", "iso-8859-1")
+
+    val numbers: Iterator[Int] = source.take(100)
+      .grouped(4)
+      .map(toInt)
+
+    val x = numbers
+      .map(toSwappedInt)
+      .flatten
+      //.flatMap(_)
+      .foreach(println)
+
+    source.close()
+  }
+
+  def write(v: Record, writer: DataOutputStream) = {
+    val a = toSwappedInt(v.recordNumber)
+    writer.write(a)
+
+    val b = toSwappedInt(v.noOfFeatures)
+    writer.write(b)
+    v.featureVector.foreach {
+      (x) => writer.write(toSwappedInt(x))
+    }
   }
 
   def run() {
@@ -47,8 +95,14 @@ object Unigrams extends App {
 
     val vectors: List[Record] = products
       .sortBy(_.tokens.size)
-      .reverse
       .map(p => Record(p.id, p.title, p.tokens.size, toFeatureVector(p.tokens) : _*))
+
+    val writer = new DataOutputStream(new FileOutputStream("/tmp/vectors.bin"))
+
+    val binaryVectors = vectors
+      .foreach (write(_,writer))
+
+    writer.close()
 
     FileHelper.writeLines("/tmp/features.csv", featureList.map(f => s"${f.id},${f.token},${f.frequency}"))
     FileHelper.writeLines("/tmp/products.csv", products.map(p => s"${p.id},${p.title}"))
@@ -57,4 +111,7 @@ object Unigrams extends App {
   }
 
   run()
+
+  //read()
+
 }
