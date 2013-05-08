@@ -12,7 +12,7 @@ object FairNSquare extends App {
     def isPalindrome(list: List[Any]): Boolean = list match {
       case Nil => true
       case head :: Nil => true
-      case head :: rest if head == rest.last => isPalindrome(rest.dropRight(1))
+      case head :: tail if head == tail.last => isPalindrome(tail.dropRight(1))
       case _ => false
     }
 
@@ -20,7 +20,7 @@ object FairNSquare extends App {
   }
 
   def saveSquares() : List[Long] = {
-    (10L to 100000000L).foreach {
+    (10L to 10000000L).foreach {
       (x: Long) => if (isPalindrome(x) && isPalindrome(x * x)) m = x :: m
     }
     m
