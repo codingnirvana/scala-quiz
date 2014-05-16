@@ -17,7 +17,9 @@ object ScalaQuizBuild extends Build {
       resolvers := Seq(typesafeRepo),
       libraryDependencies ++= Seq(
         scalatest,
-        scalaARM
+        scalaARM,
+        dispatchHttp,
+        dispatchJson
       )
     )
   )
@@ -29,6 +31,8 @@ object ScalaQuizBuild extends Build {
   object Dependencies {
     val scalatest = "org.scalatest" % "scalatest_2.10" % "1.9.1" % "test"
     val scalaARM = "com.jsuereth" %% "scala-arm" % "1.3"
+    val dispatchHttp = "net.databinder.dispatch" % "dispatch-core_2.10" % "0.11.0"
+    val dispatchJson = "net.databinder.dispatch" % "dispatch-lift-json_2.10" % "0.11.0"
   }
 
 }

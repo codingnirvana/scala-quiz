@@ -34,6 +34,9 @@ object Fractions extends App {
   }
 
   def run() {
+    val x = readInt()
+    println(x)
+
     val (t, lines) = FileHelper.readLines("input/fractions.in")
 
     val result = (1 to lines.length).map {
