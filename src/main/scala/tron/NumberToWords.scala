@@ -1,5 +1,6 @@
 package tron
 
+
 class NumberToWords {
 
   val singleDigitsMap = toLongMap(Map (0-> "zero", 1 -> "one", 2 -> "two", 3 -> "three", 4 -> "four", 5 -> "five", 6 -> "six", 7 -> "seven",
@@ -19,7 +20,7 @@ class NumberToWords {
     if (number == 0) {
       ""
     }
-    else if (twoDigitMap.exists { case(k, v) => k == number }) {
+    else if (twoDigitMap.contains(number)) {
       twoDigitMap(number)
     }
     else {
@@ -27,9 +28,10 @@ class NumberToWords {
       val tensPlace = (number/10)%10
       val unitsPlace = number % 10
       if (hundredsPlace == 0)
-       twoDigitMap(tensPlace * 10) + " " + twoDigitMap(unitsPlace)
-      else
-       singleDigitsMap(hundredsPlace) + " hundred " + solveForThreeDigits(number % 100)
+        combine(twoDigitMap(tensPlace * 10) , singleDigitsMap(unitsPlace))
+      else {
+        combine(singleDigitsMap(hundredsPlace), "hundred" , solveForThreeDigits(number % 100))
+      }
     }
   }
 
@@ -38,9 +40,9 @@ class NumberToWords {
       case 0 => ""
       case n if n/1000 == 0 => solveForThreeDigits(n)
       case _ =>
-        val (power, w) = xs.head
+        val (power, illion) = xs.head
         if (number / power > 0) {
-          solveForThreeDigits(number / power) + " "  + w + " " + solveInternal(number % power, xs.tail)
+          combine(solveForThreeDigits(number / power), illion , solveInternal(number % power, xs.tail))
         } else {
           solveInternal(number , xs.tail)
         }
@@ -53,6 +55,10 @@ class NumberToWords {
     }  else {
       solveInternal(number, largeNumbersMap.reverse).trim()
     }
+  }
+
+  def combine(parts: String*) = {
+    parts.foldLeft(""){case (soFar, part) => if(part.isEmpty) soFar.trim else soFar + " " + part.trim}
   }
 
   def toLongMap(m: Map[Int,String]) =  m.map { case (a,b) => a.toLong -> b}
