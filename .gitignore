@@ -1,6 +1,4 @@
 target/
 project/target/
 project/project/target/
-.idea/workspace.xml
-.idea/misc.xml
-.idea/uiDesigner.xml
+.idea/*
