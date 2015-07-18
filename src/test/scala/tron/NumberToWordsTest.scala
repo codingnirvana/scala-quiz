@@ -7,7 +7,7 @@ class NumberToWordsTest extends FlatSpec with ShouldMatchers {
 
   "Number To Words Test" should "return the correct words for single digit numbers" in {
     val numbersMap = Map (0-> "zero", 1 -> "one", 2 -> "two", 3 -> "three", 4 -> "four", 5 -> "five", 6 -> "six", 7 -> "seven",
-    8 -> "eight", 9-> "nine")
+      8 -> "eight", 9-> "nine")
 
     numbersMap.foreach {
       case (number, word) => new NumberToWords().solve(number) should equal(word)
@@ -60,4 +60,13 @@ class NumberToWordsTest extends FlatSpec with ShouldMatchers {
     new NumberToWords().solve(3436454643L) should equal("three billion four hundred thirty six million four hundred fifty four thousand six hundred forty three")
     new NumberToWords().solve(432003436454643L) should equal("four hundred thirty two trillion three billion four hundred thirty six million four hundred fifty four thousand six hundred forty three")
   }
+
+  "Number To Words Test" should "return the correct words for corner cases" in {
+    new NumberToWords().solve(100000) should equal("one hundred thousand")
+    new NumberToWords().solve(100000000) should equal("one hundred million")
+    new NumberToWords().solve(375000100) should equal("three hundred seventy five million one hundred")
+  }
+
+
+
 }
